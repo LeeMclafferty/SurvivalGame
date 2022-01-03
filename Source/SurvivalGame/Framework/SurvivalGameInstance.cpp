@@ -5,6 +5,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "Widgets/CharacterCreationWidget.h"
+#include "Widgets/MainMenu.h"
 
 #include "Player/SurvivalPlayerController.h"
 #include "Player/CharacterCreationDummy.h"
@@ -13,8 +14,11 @@
 
 USurvivalGameInstance::USurvivalGameInstance()
 {
-	ConstructorHelpers::FClassFinder<UUserWidget> creation_widget_bp(TEXT("/Game/aa_Blueprints/Widgets/CharacterCreation/WBP_CreationScreen"));
+	ConstructorHelpers::FClassFinder<UUserWidget> creation_widget_bp(TEXT("/Game/aa_Blueprints/Widgets/Menus/WBP_CreationScreen"));
 	creation_menu_class = creation_widget_bp.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> main_menu_bp(TEXT("/Game/aa_Blueprints/Widgets/Menus/WBP_MainMenu"));
+	main_menu_class = main_menu_bp.Class;
 }
 
 void USurvivalGameInstance::Init()
@@ -31,6 +35,15 @@ void USurvivalGameInstance::LoadCreationMenu()
 	{ 
 		creation_menu = CreateWidget<UCharacterCreationWidget>(this, creation_menu_class);
 		creation_menu->Setup();
-		
 	}
+}
+
+void USurvivalGameInstance::LoadGameMainMenu()
+{
+	if (ASurvivalPlayerController* player_controller = Cast<ASurvivalPlayerController>(UGameInstance::GetFirstLocalPlayerController()))
+	{
+		main_menu = CreateWidget<UMainMenu>(this, main_menu_class);
+		main_menu->Setup();
+	}
+
 }

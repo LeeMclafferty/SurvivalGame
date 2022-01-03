@@ -13,6 +13,7 @@ bool UMenuBase::Initialize()
 
 void UMenuBase::Setup()
 {
+	
 	this->AddToViewport();
 	this->bIsFocusable = true;
 	

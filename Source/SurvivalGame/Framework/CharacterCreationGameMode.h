@@ -24,6 +24,8 @@ public:
 	class UAnimationAsset* male_idle;
 	UPROPERTY(EditDefaultsOnly, Category = "Animations")
 	class UAnimationAsset* female_idle;
+	UPROPERTY()
+	bool is_new_game;
 
 protected:
 

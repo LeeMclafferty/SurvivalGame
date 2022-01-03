@@ -82,6 +82,9 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* skintone_left;
 
+	UPROPERTY(meta = (BindWidget))
+	class UButton* create_character_button;
+
 	virtual bool Initialize() override;
 
 	FString male = "Male";
@@ -149,13 +152,8 @@ private:
 	UFUNCTION()
 	void SetSkintone();
 
-
-
-
-	
-
-
-
+	UFUNCTION()
+	void OnPressCreateCharacter();
 	
 
 

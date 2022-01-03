@@ -91,6 +91,10 @@ bool UCharacterCreationWidget::Initialize()
 	{
 		skintone_right->OnPressed.AddDynamic(this, &UCharacterCreationWidget::OnPressSkinToneRight);
 	}
+	if (create_character_button)
+	{
+		create_character_button->OnPressed.AddDynamic(this,&UCharacterCreationWidget::OnPressCreateCharacter);
+	}
 
 	skin_index = 0;
 	hairstyle_index = 0;
@@ -673,5 +677,17 @@ void UCharacterCreationWidget::SetSkintone()
 			break;
 		}
 	}
+}
+
+void UCharacterCreationWidget::OnPressCreateCharacter()
+{
+	// Make a main menu that you will select if you are the client or server
+	// Give an option with new character or load character.
+
+	//if(is_new_character)
+		//Create Character
+		
+	//(!is_new_character)
+		//Load Character
 }
 

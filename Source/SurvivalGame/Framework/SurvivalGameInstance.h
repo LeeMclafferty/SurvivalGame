@@ -22,6 +22,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu Loading")
 	void LoadCreationMenu();
 
+		//Called on level bp of creation level. 
+	UFUNCTION(BlueprintCallable, Category = "Menu Loading")
+	void LoadGameMainMenu();
+
 private:
 
 	UPROPERTY()
@@ -29,6 +33,12 @@ private:
 
 	UPROPERTY()
 	class UCharacterCreationWidget* creation_menu;
+
+	UPROPERTY()
+	TSubclassOf<class UUserWidget> main_menu_class;
+
+	UPROPERTY()
+	class UMainMenu* main_menu;
 
 
 };

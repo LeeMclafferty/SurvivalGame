@@ -10,6 +10,8 @@ ACharacterCreationGameMode::ACharacterCreationGameMode()
 {
 	ConstructorHelpers::FClassFinder<AActor> creation_dummy_bp(TEXT("/Game/aa_Blueprints/Actor/BP_CharacterCreationDummy"));
 	creation_dummy_class = creation_dummy_bp.Class;
+
+	is_new_game = true;
 }
 
 void ACharacterCreationGameMode::BeginPlay()
