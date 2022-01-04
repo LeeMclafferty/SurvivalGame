@@ -14,7 +14,7 @@ ACameraDirector::ACameraDirector()
 void ACameraDirector::SetViewToCameraOne()
 {
 	ASurvivalPlayerController* pc = Cast<ASurvivalPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-	pc->SetViewTarget(camera_one);
+	pc->SetViewTargetWithBlend(camera_one, smooth_blend_time);
 }
 
 void ACameraDirector::SetViewToCameraTwo()

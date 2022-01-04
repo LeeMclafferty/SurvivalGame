@@ -61,7 +61,6 @@ void UMainMenu::OnPressNewButton()
 	gamemode->is_new_game = true;
 
 	menu_switcher->SetActiveWidget(join_host_menu);
-
 }
 
 void UMainMenu::OnPressContinueButton()

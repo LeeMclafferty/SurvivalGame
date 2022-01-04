@@ -8,9 +8,12 @@
 #include "Components/SizeBox.h"
 #include "Internationalization/Text.h"
 #include "Kismet/GameplayStatics.h"
+#include "TimerManager.h"
 
 #include "Player/CharacterCreationDummy.h"
 #include "Framework/CharacterCreationGameMode.h"
+#include "Framework/SurvivalGameInstance.h"
+#include "World/CameraDirector.h"
 
 
 
@@ -95,6 +98,10 @@ bool UCharacterCreationWidget::Initialize()
 	{
 		create_character_button->OnPressed.AddDynamic(this,&UCharacterCreationWidget::OnPressCreateCharacter);
 	}
+	if (back_button)
+	{
+		back_button->OnPressed.AddDynamic(this, &UCharacterCreationWidget::OnPressBackButton);
+	}
 
 	skin_index = 0;
 	hairstyle_index = 0;
@@ -164,7 +171,7 @@ void UCharacterCreationWidget::OnPressedGenderRight()
 	beard_index = 0;
 	haircolor_index = 0;
 	eyecolor_index = 0;
-	skin_index = 4;
+	skin_index = 3;
 	haircolor_text->SetText(FText::FromString("Brown"));
 	eyecolor_text->SetText(FText::FromString("Brown"));
 	dummy->hair_mesh->SetMaterial(0, dummy->brownhair_01);
@@ -202,7 +209,7 @@ void UCharacterCreationWidget::OnPressedHairsStyleLeft()
 			dummy->hair_mesh->SetSkeletalMesh(dummy->female_hairstyles[hairstyle_index]);
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
+	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
 		//Set Hairstyle number
 	SetHairStyleNumber();
 		//Makes sure the hairstyle has the right material
@@ -234,7 +241,7 @@ void UCharacterCreationWidget::OnPressedHairsStyleRight()
 			dummy->hair_mesh->SetSkeletalMesh(dummy->female_hairstyles[hairstyle_index]);
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
+	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
 		//Set Hairstyle number
 	SetHairStyleNumber();
 		//Makes sure the hairstyle has the right material
@@ -264,7 +271,7 @@ void UCharacterCreationWidget::OnPressedBeardLeft()
 	{
 		return;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
+	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
 	SetBeardNumber();
 }
 
@@ -285,7 +292,7 @@ void UCharacterCreationWidget::OnPressedBeardRight()
 	{
 		return;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
+	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
 	SetBeardNumber();
 }
 
@@ -588,7 +595,7 @@ void UCharacterCreationWidget::OnPressSkinToneLeft()
 {
 	if(skin_index > 0)
 		skin_index--;
-	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("Index %i"), skin_index));
+	//GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("Index %i"), skin_index));
 	SetSkintone();
 }
 
@@ -596,7 +603,7 @@ void UCharacterCreationWidget::OnPressSkinToneRight()
 {
 	if(skin_index < 4)
 		skin_index++;
-	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("Index %i"), skin_index));
+	//GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("Index %i"), skin_index));
 		SetSkintone();
 }
 
@@ -689,5 +696,23 @@ void UCharacterCreationWidget::OnPressCreateCharacter()
 		
 	//(!is_new_character)
 		//Load Character
+}
+
+void UCharacterCreationWidget::OnPressBackButton()
+{
+	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	this->RemoveFromParent();
+	gamemode->GetCameraDirector()->SetViewToCameraOne();
+
+	FTimerHandle timerhandle;
+	GetWorld()->GetTimerManager().SetTimer(timerhandle, this, &UCharacterCreationWidget::LoadMainMenu, gamemode->GetCameraDirector()->smooth_blend_time, false);
+}
+
+void UCharacterCreationWidget::LoadMainMenu()
+{
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetGameInstance());
+
+	game_instance->LoadGameMainMenu();
+
 }
 

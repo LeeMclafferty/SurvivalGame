@@ -85,6 +85,9 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* create_character_button;
 
+	UPROPERTY(meta = (BindWidget))
+	class UButton* back_button;
+
 	virtual bool Initialize() override;
 
 	FString male = "Male";
@@ -154,6 +157,12 @@ private:
 
 	UFUNCTION()
 	void OnPressCreateCharacter();
+
+	UFUNCTION()
+	void OnPressBackButton();
+
+	UFUNCTION()
+	void LoadMainMenu();
 	
 
 
