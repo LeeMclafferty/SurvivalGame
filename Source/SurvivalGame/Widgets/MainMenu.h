@@ -96,4 +96,6 @@ private:
 	UFUNCTION()
 	void OnPressExitButton();
 
+	void LoadCreationMenu();
+
 };

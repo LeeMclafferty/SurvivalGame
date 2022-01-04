@@ -4,9 +4,12 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/WidgetSwitcher.h"
+#include "TimerManager.h"
 
 #include "Player/SurvivalPlayerController.h"
 #include "Framework/CharacterCreationGameMode.h"
+#include "World/CameraDirector.h"
+#include "Framework/SurvivalGameInstance.h"
 
 bool UMainMenu::Initialize()
 {
@@ -81,27 +84,40 @@ void UMainMenu::OnPressQuitButton()
 void UMainMenu::OnPressHostButton()
 {
 	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
 	if (gamemode->is_new_game)
 	{
 		//Show session options
-		//create new character
+		gamemode->GetCameraDirector()->SetViewToCameraTwo();
+		this->RemoveFromParent();
+
+		FTimerHandle timerhandle;
+		GetWorld()->GetTimerManager().SetTimer(timerhandle, this, &UMainMenu::LoadCreationMenu, gamemode->GetCameraDirector()->smooth_blend_time, false);
 	}
 	if (!gamemode->is_new_game)
 	{
-		//Show existing characters
+		//Show existing characters to load
 	}
 }
 
 void UMainMenu::OnPressJoinButton()
 {
 	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
 	if (gamemode->is_new_game)
 	{
 		//create new character
+		gamemode->GetCameraDirector()->SetViewToCameraTwo();
+		this->RemoveFromParent();
+
+		FTimerHandle timerhandle;
+		GetWorld()->GetTimerManager().SetTimer(timerhandle, this, &UMainMenu::LoadCreationMenu, gamemode->GetCameraDirector()->smooth_blend_time, false);
+		
 	}
+	
 	if (!gamemode->is_new_game)
 	{
-		//Show existing characters
+		//Show existing characters to load
 	}
 }
 
@@ -120,3 +136,12 @@ void UMainMenu::OnPressExitButton()
 	ASurvivalPlayerController* player_controller = Cast<ASurvivalPlayerController>(GetWorld()->GetFirstLocalPlayerFromController());
 	UKismetSystemLibrary::QuitGame(GetWorld(), player_controller, EQuitPreference::Quit, false);
 }
+
+void UMainMenu::LoadCreationMenu()
+{
+		// just used to call Load creation menu inside of a delay
+		USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetGameInstance());
+		game_instance->LoadCreationMenu();
+}
+
+
