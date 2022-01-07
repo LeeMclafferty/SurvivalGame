@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include <vector>
+#include "Framework/SaveGameBase.h"
 #include "CharacterCreationDummy.generated.h"
+
 
 UCLASS(Blueprintable)
 class SURVIVALGAME_API ACharacterCreationDummy : public AActor
@@ -20,6 +22,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Gender")
 	bool is_male;
+
+	//FPlayerSaveData player_save_data;
 
 		//non-editable mesh components
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Non-Editable Mesh")
@@ -41,7 +45,7 @@ public:
 	class USkeletalMeshComponent* belt_mesh;
 
 		//Start of editable mesh components
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Editable Mesh")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Editable Mesh", SaveGame)
 	class USkeletalMeshComponent* hair_mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Editable Mesh")

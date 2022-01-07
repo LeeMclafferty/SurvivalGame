@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/MenuBase.h"
+#include "Framework/SaveGameBase.h"
 #include "CharacterCreationWidget.generated.h"
 
 /**
@@ -38,6 +39,9 @@ protected:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* hairstyle_number;
+
+	UPROPERTY()
+	class USkeletalMesh* current_hair;
 
 		//Beard
 	UPROPERTY(meta = (BindWidget))
@@ -88,6 +92,13 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* back_button;
 
+	UPROPERTY(meta = (BindWidget))
+	class UButton* zoom_out_button;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* zoom_in_button;
+
+
 	virtual bool Initialize() override;
 
 	FString male = "Male";
@@ -97,6 +108,8 @@ protected:
 	int32 haircolor_index;
 	int32 eyecolor_index;
 	int32 skin_index;
+
+	FPlayerSaveData creation_save_data;
 
 
 private:
@@ -163,7 +176,15 @@ private:
 
 	UFUNCTION()
 	void LoadMainMenu();
+
+	UFUNCTION()
+	void OnPressZoomOutButton();
+
+	UFUNCTION()
+	void OnPressZoomInButton();
 	
+	UFUNCTION()
+	void SaveCharacterData();
 
 
 	

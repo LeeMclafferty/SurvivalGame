@@ -18,6 +18,7 @@ class SURVIVALGAME_API UMainMenu : public UMenuBase
 
 public:
 
+
 	
 
 protected:
@@ -67,6 +68,18 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* exit_button;
 
+		//IP Menu
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* ip_menu;
+
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* ip_field_text;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* join_ip_button
+	;
+
+
 private:
 
 	UFUNCTION()
@@ -97,5 +110,10 @@ private:
 	void OnPressExitButton();
 
 	void LoadCreationMenu();
+
+	UFUNCTION()
+	void OnPressJoinIpButton();
+
+	
 
 };

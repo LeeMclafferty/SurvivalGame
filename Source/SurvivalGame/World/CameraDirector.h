@@ -17,9 +17,11 @@ public:
 
 	void SetViewToCameraOne();
 	void SetViewToCameraTwo();
+	void SetViewToCameraThree();
+	void SnapToCameraOne();
 
-	bool is_first_time_on_main_menu;
-	const float smooth_blend_time = 0.75f;
+	
+	const float smooth_blend_time = 2.f;
 
 protected:
 	virtual void BeginPlay() override;
@@ -31,6 +33,9 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	class AActor* camera_two;
+
+	UPROPERTY(EditAnywhere)
+	class AActor* camera_three;
 
 
 

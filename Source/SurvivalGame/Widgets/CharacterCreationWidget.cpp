@@ -9,11 +9,14 @@
 #include "Internationalization/Text.h"
 #include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
+#include "EditableTextBox.h"
 
 #include "Player/CharacterCreationDummy.h"
 #include "Framework/CharacterCreationGameMode.h"
 #include "Framework/SurvivalGameInstance.h"
 #include "World/CameraDirector.h"
+#include "Framework/SaveGameBase.h"
+#include "Player/SurvivalPlayerController.h"
 
 
 
@@ -102,7 +105,14 @@ bool UCharacterCreationWidget::Initialize()
 	{
 		back_button->OnPressed.AddDynamic(this, &UCharacterCreationWidget::OnPressBackButton);
 	}
-
+	if (zoom_out_button)
+	{
+		zoom_out_button->OnPressed.AddDynamic(this, &UCharacterCreationWidget::OnPressZoomOutButton);
+	}
+	if (zoom_in_button)
+	{
+		zoom_in_button->OnPressed.AddDynamic(this, &UCharacterCreationWidget::OnPressZoomInButton);
+	}
 	skin_index = 0;
 	hairstyle_index = 0;
 	beard_index = 0;
@@ -189,6 +199,7 @@ void UCharacterCreationWidget::OnPressedGenderRight()
 void UCharacterCreationWidget::OnPressedHairsStyleLeft()
 {
 	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetWorld()->GetGameInstance());
 	ACharacterCreationDummy* dummy = gamemode->GetCreationDummy();
 	
 		//Male has 5 hair styles
@@ -197,7 +208,8 @@ void UCharacterCreationWidget::OnPressedHairsStyleLeft()
 		if (hairstyle_index > 0)
 		{
 			hairstyle_index--;
-			dummy->hair_mesh->SetSkeletalMesh(dummy->male_hairstyles[hairstyle_index]);
+			dummy->hair_mesh->SetSkeletalMesh(game_instance->male_hairstyles[hairstyle_index]);
+			//dummy->male_hairstyles[hairstyle_index]
 		}
 	}
 		//Female has 7 hair styles
@@ -206,7 +218,7 @@ void UCharacterCreationWidget::OnPressedHairsStyleLeft()
 		if (hairstyle_index > 0)
 		{
 			hairstyle_index--;
-			dummy->hair_mesh->SetSkeletalMesh(dummy->female_hairstyles[hairstyle_index]);
+			dummy->hair_mesh->SetSkeletalMesh(game_instance->female_hairstyles[hairstyle_index]);
 		}
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
@@ -218,17 +230,17 @@ void UCharacterCreationWidget::OnPressedHairsStyleLeft()
 
 void UCharacterCreationWidget::OnPressedHairsStyleRight()
 {
-
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetWorld()->GetGameInstance());
 	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	ACharacterCreationDummy* dummy = gamemode->GetCreationDummy();
 	
 		//Male has 5 hair styles
 	if (dummy->is_male)
 	{
-		if (hairstyle_index < 6)
+		if (hairstyle_index < 5)
 		{
 				hairstyle_index++;
-				dummy->hair_mesh->SetSkeletalMesh(dummy->male_hairstyles[hairstyle_index]);
+				dummy->hair_mesh->SetSkeletalMesh(game_instance->male_hairstyles[hairstyle_index]);
 		}
 	}
 
@@ -238,7 +250,7 @@ void UCharacterCreationWidget::OnPressedHairsStyleRight()
 		if (hairstyle_index < 8)
 		{
 			hairstyle_index++;
-			dummy->hair_mesh->SetSkeletalMesh(dummy->female_hairstyles[hairstyle_index]);
+			dummy->hair_mesh->SetSkeletalMesh(game_instance->male_hairstyles[hairstyle_index]);
 		}
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Yellow, FString::Printf(TEXT("Color index: %i"), haircolor_index));
@@ -256,6 +268,7 @@ void UCharacterCreationWidget::SetHairStyleNumber()
 
 void UCharacterCreationWidget::OnPressedBeardLeft()
 {
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetWorld()->GetGameInstance());
 	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	ACharacterCreationDummy* dummy = gamemode->GetCreationDummy();
 		//Only works on male
@@ -264,7 +277,7 @@ void UCharacterCreationWidget::OnPressedBeardLeft()
 		if (beard_index > 0)
 		{
 			beard_index--;
-			dummy->beard_mesh->SetSkeletalMesh(dummy->beards[beard_index]);
+			dummy->beard_mesh->SetSkeletalMesh(game_instance->beards[beard_index]);
 		}
 	}
 	else
@@ -277,6 +290,7 @@ void UCharacterCreationWidget::OnPressedBeardLeft()
 
 void UCharacterCreationWidget::OnPressedBeardRight()
 {
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetWorld()->GetGameInstance());
 	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	ACharacterCreationDummy* dummy = gamemode->GetCreationDummy();
 
@@ -285,7 +299,7 @@ void UCharacterCreationWidget::OnPressedBeardRight()
 		if (beard_index < 5)
 		{
 			beard_index++;
-			dummy->beard_mesh->SetSkeletalMesh(dummy->beards[beard_index]);
+			dummy->beard_mesh->SetSkeletalMesh(game_instance->beards[beard_index]);
 		}
 	}
 	else
@@ -688,14 +702,29 @@ void UCharacterCreationWidget::SetSkintone()
 
 void UCharacterCreationWidget::OnPressCreateCharacter()
 {
-	// Make a main menu that you will select if you are the client or server
-	// Give an option with new character or load character.
+	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetWorld()->GetGameInstance());
+	ASurvivalPlayerController* pc = Cast<ASurvivalPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
-	//if(is_new_character)
-		//Create Character
+	if(gamemode != nullptr && game_instance != nullptr)
+	{ 
+		pc->SaveNewCharacterData();
+		if (gamemode->is_hosting)
+		{
+			//Still need a server options menu when you press host in main menu.
+			game_instance->Host();
+			//GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, FString::Printf(TEXT("Is Hosting: %i"), gamemode->is_hosting));
+		}
+		if (!gamemode->is_hosting)
+		{
+			/*GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, FString::Printf(TEXT("Entered IP: %s"), *gamemode->GetEnteredIP()));
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Yellow, FString::Printf(TEXT("Is Hosting: %i"), gamemode->is_hosting));*/
+			game_instance->Join(gamemode->GetEnteredIP());
+		}
+	}
 		
-	//(!is_new_character)
-		//Load Character
+	
+		
 }
 
 void UCharacterCreationWidget::OnPressBackButton()
@@ -714,5 +743,37 @@ void UCharacterCreationWidget::LoadMainMenu()
 
 	game_instance->LoadGameMainMenu();
 
+}
+
+void UCharacterCreationWidget::OnPressZoomOutButton()
+{
+	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	gamemode->GetCameraDirector()->SetViewToCameraTwo();
+}
+
+void UCharacterCreationWidget::OnPressZoomInButton()
+{
+	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	gamemode->GetCameraDirector()->SetViewToCameraThree();
+}
+
+void UCharacterCreationWidget::SaveCharacterData()
+{
+	ACharacterCreationGameMode* gamemode = Cast<ACharacterCreationGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	ACharacterCreationDummy* dummy = gamemode->GetCreationDummy();
+	USaveGameBase* save_instance = Cast<USaveGameBase>(UGameplayStatics::CreateSaveGameObject(USaveGameBase::StaticClass()));
+	USurvivalGameInstance* game_instance = Cast<USurvivalGameInstance>(GetWorld()->GetGameInstance());
+
+	if(dummy != nullptr && save_instance != nullptr && gamemode != nullptr)
+	{ 
+		save_instance->player_save_data.player_hair = dummy->hair_mesh->SkeletalMesh; 
+		FString slot_name = "Player Save";
+		int32 player_index = GetWorld()->GetControllerIterator().GetIndex();
+		//save_instance->player_save_data = creation_save_data;
+
+		UGameplayStatics::SaveGameToSlot(save_instance, slot_name, 0);
+	}
 }
 

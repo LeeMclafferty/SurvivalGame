@@ -4,11 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "Kismet/GameplayStatics.h"
 #include "SaveGameBase.generated.h"
 
 /**
  * 
  */
+USTRUCT()
+struct FPlayerSaveData
+{
+	GENERATED_BODY()
+
+	FString player_name = "default name";
+	USkeletalMesh* player_hair;
+
+};
+
 UCLASS()
 class SURVIVALGAME_API USaveGameBase : public USaveGame
 {
@@ -18,15 +29,19 @@ public:
 
 	USaveGameBase();
 
-	UPROPERTY(VisibleAnywhere, Category = "Basic")
-	FString save_name;
+	FPlayerSaveData player_save_data;
 	
 	UPROPERTY(VisibleAnywhere, Category = "Basic")
-	TArray<class UItemBase*> player_items;
+	FString save_slot_name;
 
 	UPROPERTY(VisibleAnywhere, Category = "Basic")
-	FString player_name;
-
+	int32 player_index;
 		
+		// Saving to a struct does not seem to work, but I am able to save to this variable. 
+		// Player Customization.
+	UPROPERTY(VisibleAnywhere, Category = "Player Customization")
+	USkeletalMesh* current_hair_mesh;
+	UPROPERTY(VisibleAnywhere, Category = "Player Customization")
+	USkeletalMesh* current_beard_mesh;
 	
 };

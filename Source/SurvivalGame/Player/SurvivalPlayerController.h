@@ -39,7 +39,22 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnHitPlayer();
 
+	/// <summary>
+	/// Saving and loading
+	/// </summary>
+	UFUNCTION()
+	void SaveNewCharacterData();
+
+	UFUNCTION()
+	void LoadPlayerData();
+
+
+
 protected:
+
+	virtual void BeginPlay() override;
+
+	FString slot_name = "Player Save";
 
 private:
 	

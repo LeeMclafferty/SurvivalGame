@@ -147,10 +147,10 @@ public:
 	float ModifyHealth(const float delta);
 
 	UFUNCTION()
-		void OnRep_Health(float old_health);
+	void OnRep_Health(float old_health);
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void OnHealthModified(const float health_delta);
+	void OnHealthModified(const float health_delta);
 
 
 	// Equippable Items

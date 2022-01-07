@@ -6,9 +6,12 @@
 
 #include "Player/CharacterBase.h"
 
+
+
+
 USaveGameBase::USaveGameBase()
 {
-	
-	save_name = TEXT("Default Save");
+	save_slot_name = TEXT("Test Save");
+	player_index = 0;
 	
 }

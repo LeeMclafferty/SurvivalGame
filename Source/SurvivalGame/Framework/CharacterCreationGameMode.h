@@ -24,6 +24,10 @@ public:
 
 	class ACameraDirector* GetCameraDirector() { return camera_director; }
 
+	FString GetEnteredIP() { return entered_ip; }
+
+	void SetEnteredIP(FString in_ip) { entered_ip = in_ip; }
+
 	//Idle animations
 	UPROPERTY(EditDefaultsOnly, Category = "Animations")
 	class UAnimationAsset* male_idle;
@@ -33,6 +37,9 @@ public:
 
 	UPROPERTY()
 	bool is_new_game;
+
+	UPROPERTY()
+	bool is_hosting;
 
 protected:
 
@@ -51,5 +58,6 @@ private:
 	UPROPERTY()
 	class ACharacterCreationDummy* creation_dummy;
 
+	FString entered_ip;
 	
 };

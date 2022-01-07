@@ -29,6 +29,8 @@
 #include "Items/ShieldItem.h"
 #include "Weapons/Weapon.h"
 #include "Weapons/Shield.h"
+#include "Framework/SaveGameBase.h"
+#include "Player/CharacterCreationDummy.h"
 
 #define LOCTEXT_NAMESPACE "CharacterBase"
 
@@ -103,6 +105,8 @@ ACharacterBase::ACharacterBase()
 
 	max_stamina = 100.f;
 	stamina = max_stamina;
+
+
 }
 
 void ACharacterBase::BeginPlay()
@@ -114,7 +118,13 @@ void ACharacterBase::BeginPlay()
 	if (APlayerState* player_state = GetPlayerState())
 	{
 		loot_player_interaction->SetInteractableNameText(FText::FromString(player_state->GetPlayerName()));
+	}	
+	if (ASurvivalPlayerController* player_controller = Cast<ASurvivalPlayerController>(GetController()))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("pc"));
+		player_controller->LoadPlayerData();
 	}
+	
 }
 
 
@@ -846,7 +856,7 @@ void ACharacterBase::EquipWeapon(class UWeaponItem* weapon_item)
 
 		if (weapon_item->weapon_class)
 		{
-			if (AWeapon* weapon = GetWorld()->SpawnActor<AWeapon>(weapon_item->weapon_class, GetMesh()->GetSocketLocation("Weapon_R"), GetMesh()->GetSocketRotation("Weapon_R"), spawn_params))
+			if (AWeapon* weapon = GetWorld()->SpawnActor<AWeapon>(weapon_item->weapon_class, GetMesh()->GetSocketLocation("WeaponSocketR"), GetMesh()->GetSocketRotation("WeaponSocketR"), spawn_params))
 			{
 				if (weapon->Owner)
 				{

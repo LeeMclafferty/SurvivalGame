@@ -13,6 +13,7 @@ ACharacterCreationGameMode::ACharacterCreationGameMode()
 	creation_dummy_class = creation_dummy_bp.Class;
 
 	is_new_game = true;
+	is_hosting = false;
 }
 
 void ACharacterCreationGameMode::BeginPlay()
@@ -20,12 +21,12 @@ void ACharacterCreationGameMode::BeginPlay()
 	
 	 UGameplayStatics::GetAllActorsOfClass(GetWorld(), ACameraDirector::StaticClass(), camera_directors);
 	 camera_director = Cast<ACameraDirector>(camera_directors[0]);
-	 camera_director->SetViewToCameraOne();
+	 camera_director->SnapToCameraOne();
 
 	
 		// Creating the params for Spawn dummy actor
-	FVector location(-244.f, 11.f, 20.f);
-	FRotator rotation(0.f, 100.000114, 0);
+	FVector location(22460.0f, 75910.0f, -39315.875f);
+	FRotator rotation(-0.701221, 13.418568, 2.944208);
 	FVector scale(1.f,1.f,1.f);
 	FActorSpawnParameters spawn_params;
 	spawn_params.bNoFail = true;

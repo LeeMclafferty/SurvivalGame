@@ -14,14 +14,35 @@ ACameraDirector::ACameraDirector()
 void ACameraDirector::SetViewToCameraOne()
 {
 	ASurvivalPlayerController* pc = Cast<ASurvivalPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-	pc->SetViewTargetWithBlend(camera_one, smooth_blend_time);
+	if(pc != nullptr)
+		pc->SetViewTargetWithBlend(camera_one, smooth_blend_time);
 }
 
 void ACameraDirector::SetViewToCameraTwo()
 {
 	ASurvivalPlayerController* pc = Cast<ASurvivalPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
-	
-	pc->SetViewTargetWithBlend(camera_two, smooth_blend_time);
+	if(pc != nullptr)
+	{ 
+		if (pc->GetViewTarget() == camera_one)
+			pc->SetViewTargetWithBlend(camera_two, smooth_blend_time);
+
+		if (pc->GetViewTarget() == camera_three)
+			pc->SetViewTargetWithBlend(camera_two, .75f);
+	}
+}
+
+void ACameraDirector::SetViewToCameraThree()
+{
+	ASurvivalPlayerController* pc = Cast<ASurvivalPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	if (pc != nullptr)
+		pc->SetViewTargetWithBlend(camera_three, .75f);
+}
+
+void ACameraDirector::SnapToCameraOne()
+{
+	ASurvivalPlayerController* pc = Cast<ASurvivalPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	if(pc != nullptr)
+		pc->SetViewTarget(camera_one);
 }
 
 void ACameraDirector::BeginPlay()
