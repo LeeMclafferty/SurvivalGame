@@ -109,7 +109,6 @@ protected:
 	int32 eyecolor_index;
 	int32 skin_index;
 
-	FPlayerSaveData creation_save_data;
 
 
 private:
@@ -182,9 +181,6 @@ private:
 
 	UFUNCTION()
 	void OnPressZoomInButton();
-	
-	UFUNCTION()
-	void SaveCharacterData();
 
 
 	

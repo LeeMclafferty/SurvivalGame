@@ -31,6 +31,17 @@ struct FInteractionData // Store data about the interaction
 
 };
 
+USTRUCT(BlueprintType)
+struct FPlayerInformation 
+
+{
+	GENERATED_BODY()
+
+		//Save player stats and info like a character sheet.
+	//UPROPERTY(BlueprintReadOnly, Category = "Player Info")
+	//bool is_male = true;
+};
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquippedItemsChanged, const EEquippableSlot, slot, const UEquippableItem*, item);
 
 UCLASS()
@@ -40,6 +51,12 @@ class SURVIVALGAME_API ACharacterBase : public ACharacter
 
 public:
 	ACharacterBase();
+
+	UPROPERTY(BlueprintReadWrite)
+	FPlayerInformation player_info;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Player Info")
+		bool is_male = true;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

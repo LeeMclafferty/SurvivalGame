@@ -4,9 +4,10 @@
 #include "Framework/SurvivalGameInstance.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
+
 #include "Widgets/CharacterCreationWidget.h"
 #include "Widgets/MainMenu.h"
-
+#include "Widgets/LoadingMenu.h"
 #include "Player/SurvivalPlayerController.h"
 #include "Player/CharacterCreationDummy.h"
 
@@ -19,6 +20,9 @@ USurvivalGameInstance::USurvivalGameInstance()
 
 	ConstructorHelpers::FClassFinder<UUserWidget> main_menu_bp(TEXT("/Game/aa_Blueprints/Widgets/Menus/WBP_MainMenu"));
 	main_menu_class = main_menu_bp.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> loading_widget_bp(TEXT("/Game/aa_Blueprints/Widgets/Menus/BP_LoadingMenu"));
+	loading_menu_class = loading_widget_bp.Class;
 
 	ConstuctAllAssetReferences();
 }
@@ -48,6 +52,14 @@ void USurvivalGameInstance::LoadGameMainMenu()
 		main_menu->Setup();
 	}
 
+}
+
+void USurvivalGameInstance::LoadTranitionMenu()
+{
+
+		loading_menu = CreateWidget<ULoadingMenu>(this, loading_menu_class);
+		loading_menu->Setup();
+	
 }
 
 void USurvivalGameInstance::Host()

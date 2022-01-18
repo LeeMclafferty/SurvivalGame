@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu Loading")
 	void LoadGameMainMenu();
 
+	UFUNCTION(BlueprintCallable, Category = "Menu Loading")
+	void LoadTranitionMenu();
+
 	UFUNCTION(Exec)
 	void Host();
 
@@ -46,6 +49,12 @@ private:
 
 	UPROPERTY()
 	class UMainMenu* main_menu;
+
+	UPROPERTY()
+	class ULoadingMenu* loading_menu;
+
+	UPROPERTY()
+	TSubclassOf<class UUserWidget> loading_menu_class;
 
 public:
 
@@ -93,90 +102,90 @@ public:
 
 	//Hair Color 1
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* blackhair_01;
+	class UMaterialInterface* blackhair_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* blondehair_01;
+	class UMaterialInterface* blondehair_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* brownhair_01;
+	class UMaterialInterface* brownhair_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* greyhair_01;
+	class UMaterialInterface* greyhair_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* redhair_01;
+	class UMaterialInterface* redhair_01;
 
 	//hair Color 2
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* blackhair_02;
+	class UMaterialInterface* blackhair_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* blondehair_02;
+	class UMaterialInterface* blondehair_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* brownhair_02;
+	class UMaterialInterface* brownhair_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* greyhair_02;
+	class UMaterialInterface* greyhair_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* redhair_02;
+	class UMaterialInterface* redhair_02;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* hair_tie;
+	class UMaterialInterface* hair_tie;
 	UPROPERTY(EditDefaultsOnly, Category = "Hair Color")
-		class UMaterialInterface* brow_color;
+	class UMaterialInterface* brow_color;
 
 	//Beard Color
 	UPROPERTY(EditDefaultsOnly, Category = "Beard Colors")
-		class UMaterialInterface* beard_black;
+	class UMaterialInterface* beard_black;
 	UPROPERTY(EditDefaultsOnly, Category = "Beard Colors")
-		class UMaterialInterface* beard_blonde;
+	class UMaterialInterface* beard_blonde;
 	UPROPERTY(EditDefaultsOnly, Category = "Beard Colors")
-		class UMaterialInterface* beard_brown;
+	class UMaterialInterface* beard_brown;
 	UPROPERTY(EditDefaultsOnly, Category = "Beard Colors")
-		class UMaterialInterface* beard_grey;
+	class UMaterialInterface* beard_grey;
 	UPROPERTY(EditDefaultsOnly, Category = "Beard Colors")
-		class UMaterialInterface* beard_red;
+	class UMaterialInterface* beard_red;
 
 	//Eye colors
 	UPROPERTY(EditDefaultsOnly, Category = "Eye Colors")
-		class UMaterialInterface* brown_eyes;
+	class UMaterialInterface* brown_eyes;
 	UPROPERTY(EditDefaultsOnly, Category = "Eye Colors")
-		class UMaterialInterface* blue_eyes;
+	class UMaterialInterface* blue_eyes;
 	UPROPERTY(EditDefaultsOnly, Category = "Eye Colors")
-		class UMaterialInterface* green_eyes;
+	class UMaterialInterface* green_eyes;
 	UPROPERTY(EditDefaultsOnly, Category = "Eye Colors")
-		class UMaterialInterface* purple_eyes;
+	class UMaterialInterface* purple_eyes;
 
 	//Skin Tones
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* skintone_01;
+	class UMaterialInterface* skintone_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* skintone_02;
+	class UMaterialInterface* skintone_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* skintone_03;
+	class UMaterialInterface* skintone_03;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* skintone_04;
+	class UMaterialInterface* skintone_04;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* skintone_05;
+	class UMaterialInterface* skintone_05;
 
 	//Peasant Materials for skin tones
 	//Male 
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* male_peasant_set_01;
+	class UMaterialInterface* male_peasant_set_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* male_peasant_set_02;
+	class UMaterialInterface* male_peasant_set_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* male_peasant_set_03;
+	class UMaterialInterface* male_peasant_set_03;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* male_peasant_set_04;
+	class UMaterialInterface* male_peasant_set_04;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* male_peasant_set_05;
+	class UMaterialInterface* male_peasant_set_05;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* female_peasant_set_01;
+	class UMaterialInterface* female_peasant_set_01;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* female_peasant_set_02;
+	class UMaterialInterface* female_peasant_set_02;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* female_peasant_set_03;
+	class UMaterialInterface* female_peasant_set_03;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* female_peasant_set_04;
+	class UMaterialInterface* female_peasant_set_04;
 	UPROPERTY(EditDefaultsOnly, Category = "Skine Tones")
-		class UMaterialInterface* female_peasant_set_05;
+	class UMaterialInterface* female_peasant_set_05;
 
 
 protected:

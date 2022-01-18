@@ -112,18 +112,19 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
+	if (ASurvivalPlayerController* player_controller = Cast<ASurvivalPlayerController>(GetController()))
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow, FString::Printf(TEXT("C++")));
+		UE_LOG(LogTemp, Warning, TEXT("pc"));
+		player_controller->LoadPlayerData();
+	}
 	loot_player_interaction->on_interact.AddDynamic(this, &ACharacterBase::BeginLootingPlayer);
 
 	if (APlayerState* player_state = GetPlayerState())
 	{
 		loot_player_interaction->SetInteractableNameText(FText::FromString(player_state->GetPlayerName()));
 	}	
-	if (ASurvivalPlayerController* player_controller = Cast<ASurvivalPlayerController>(GetController()))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("pc"));
-		player_controller->LoadPlayerData();
-	}
 	
 }
 
@@ -150,7 +151,6 @@ void ACharacterBase::Tick(float DeltaTime)
 // 
 // 	DrawDebugLine(GetWorld(), trace_start, trace_end, FColor::Purple, true, 5.f, 1, 3.f);
 }
-
 
 void ACharacterBase::Restart()
 {
@@ -916,5 +916,6 @@ void ACharacterBase::UnequipShield()
 			current_shield->DeattachFromPawn();
 	}
 }
+
 
 #undef LOCTEXT_NAMESPACE
